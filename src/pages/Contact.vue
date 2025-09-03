@@ -1,18 +1,22 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-8">
     <div>
       <h1 class="text-2xl font-bold tracking-tight text-gray-800">Contact Page</h1>
     </div>
+    
+    <ReusableForm :title="formData.title" :fields="formData.fields" :submitButtonText="formData.submitButtonText" @form-submit="handleFormSubmit" />
+    
     <DataTable :headers="headers" :rows="rows" :onEdit="handleEdit" :onDelete="handleDelete" />
   </div>
 </template>
 
 <script>
 import DataTable from "../components/DataTable.vue";
+import ReusableForm from "../components/ReusableForm.vue";
 
 export default {
   name: "Contact",
-  components: { DataTable },
+  components: { DataTable, ReusableForm },
   data() {
     return {
       headers: ["ID", "Name", "Email", "Phone"],
@@ -22,6 +26,55 @@ export default {
         { id: 3, name: "Charlie", email: "charlie@example.com", phone: "5555555555" },
         { id: 4, name: "David", email: "david@example.com", phone: "1112223333" },
       ],
+      formData: {
+        title: "Contact Us",
+        submitButtonText: "Send Message",
+        fields: [
+          {
+            name: "fullName",
+            type: "text",
+            label: "Full Name",
+            placeholder: "Enter your full name",
+            required: true
+          },
+          {
+            name: "email",
+            type: "email",
+            label: "Email Address",
+            placeholder: "Enter your email address",
+            required: true
+          },
+          {
+            name: "phone",
+            type: "text",
+            label: "Phone Number",
+            placeholder: "Enter your phone number",
+            required: false
+          },
+          {
+            name: "subject",
+            type: "select",
+            label: "Subject",
+            placeholder: "Select a subject",
+            required: true,
+            options: [
+              { value: "general", label: "General Inquiry" },
+              { value: "support", label: "Technical Support" },
+              { value: "sales", label: "Sales Question" },
+              { value: "feedback", label: "Feedback" },
+              { value: "other", label: "Other" }
+            ]
+          },
+          {
+            name: "message",
+            type: "textarea",
+            label: "Message",
+            placeholder: "Enter your message here",
+            required: true,
+            rows: 5
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -31,6 +84,9 @@ export default {
     handleDelete(row, index) {
       console.log("Delete clicked on Contact Page");
     },
+    handleFormSubmit(formData) {
+      console.log("Contact Page - Form submitted:");
+    }
   },
 };
 </script>
